@@ -1,6 +1,6 @@
 package com.szymongierszewski.xmlanalyzer.service;
 
-import com.szymongierszewski.xmlanalyzer.exceptions.XmlAttributeValueException;
+import com.szymongierszewski.xmlanalyzer.exceptions.XmlContentException;
 import com.szymongierszewski.xmlanalyzer.model.PostsDetails;
 import com.szymongierszewski.xmlanalyzer.model.XmlDetails;
 
@@ -42,8 +42,7 @@ public class PostsDetailsService implements XmlDetailsService {
         try {
             return LocalDateTime.parse(xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE));
         } catch (NullPointerException | DateTimeParseException e) {
-            //TODO logger
-            throw new XmlAttributeValueException(String.format("Invalid CreationDate attribute value: '%s' encountered", xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE)));
+            throw new XmlContentException(String.format("Invalid CreationDate attribute value: '%s' encountered", xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE)), e);
         }
     }
 
@@ -75,8 +74,7 @@ public class PostsDetailsService implements XmlDetailsService {
         try {
             return Integer.valueOf(xmlStreamReader.getAttributeValue(null, SCORE_ATTRIBUTE));
         } catch (NullPointerException | NumberFormatException e) {
-            // TODO logger
-            throw new XmlAttributeValueException(String.format("Invalid Score attribute value: '%s' encountered", xmlStreamReader.getAttributeValue(null, SCORE_ATTRIBUTE)));
+            throw new XmlContentException(String.format("Invalid Score attribute value: '%s' encountered", xmlStreamReader.getAttributeValue(null, SCORE_ATTRIBUTE)), e);
         }
     }
 
