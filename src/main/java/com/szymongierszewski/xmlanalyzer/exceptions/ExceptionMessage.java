@@ -10,8 +10,25 @@ public class ExceptionMessage {
     private String message;
 
     public ExceptionMessage(Integer statusCode, String statusName, String message) {
+        timestamp = LocalDateTime.now();
         this.statusCode = statusCode;
         this.statusName = statusName;
         this.message = message;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public Integer getStatusCode() {
+        return statusCode;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
