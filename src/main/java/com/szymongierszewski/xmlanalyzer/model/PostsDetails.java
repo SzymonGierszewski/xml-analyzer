@@ -1,6 +1,7 @@
 package com.szymongierszewski.xmlanalyzer.model;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class PostsDetails extends XmlDetails {
 
@@ -10,40 +11,40 @@ public class PostsDetails extends XmlDetails {
     private Integer totalAcceptedPosts;
     private Double postsAvgScore;
 
-    public LocalDateTime getFirstPostDateTime() {
-        return firstPostDateTime;
+    public Optional<LocalDateTime> getFirstPostDateTime() {
+        return Optional.ofNullable(firstPostDateTime);
     }
 
     public void setFirstPostDateTime(LocalDateTime firstPostDateTime) {
         this.firstPostDateTime = firstPostDateTime;
     }
 
-    public LocalDateTime getLastPostDateTime() {
-        return lastPostDateTime;
+    public Optional<LocalDateTime> getLastPostDateTime() {
+        return Optional.ofNullable(lastPostDateTime);
     }
 
     public void setLastPostDateTime(LocalDateTime lastPostDateTime) {
         this.lastPostDateTime = lastPostDateTime;
     }
 
-    public Integer getTotalPosts() {
-        return totalPosts;
+    public Optional<Integer> getTotalPosts() {
+        return Optional.ofNullable(totalPosts);
     }
 
     public void setTotalPosts(Integer totalPosts) {
         this.totalPosts = totalPosts;
     }
 
-    public Integer getTotalAcceptedPosts() {
-        return totalAcceptedPosts;
+    public Optional<Integer> getTotalAcceptedPosts() {
+        return Optional.ofNullable(totalAcceptedPosts);
     }
 
     public void setTotalAcceptedPosts(Integer totalAcceptedPosts) {
         this.totalAcceptedPosts = totalAcceptedPosts;
     }
 
-    public Double getPostsAvgScore() {
-        return postsAvgScore;
+    public Optional<Double> getPostsAvgScore() {
+        return Optional.ofNullable(postsAvgScore);
     }
 
     public void setPostsAvgScore(Double postsAvgScore) {
