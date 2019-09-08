@@ -22,7 +22,7 @@ public class XmlAnalyzerService {
             XmlDetails xmlDetails = xmlDetailsService.createXmlDetails(xmlStreamReader);
             return new XmlAnalysis(xmlDetails);
         } catch (IOException | XMLStreamException e) {
-            // TODO
+            // TODO throw RuntimeException
             return null;
         }
     }

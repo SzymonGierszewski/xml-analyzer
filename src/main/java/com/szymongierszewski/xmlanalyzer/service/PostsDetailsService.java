@@ -16,15 +16,12 @@ public class PostsDetailsService implements XmlDetailsService {
     private static final String SCORE_ATTRIBUTE = "Score";
     private static final String ACCEPTED_ANSWER_ID_ATTRIBUTE = "AcceptedAnswerId";
 
-    private final PostsDetails postsDetails;
+    private PostsDetails postsDetails;
     private Integer postsTotalScore = 0;
-
-    public PostsDetailsService(PostsDetails postsDetails) {
-        this.postsDetails = postsDetails;
-    }
 
     @Override
     public XmlDetails createXmlDetails(XMLStreamReader xmlStreamReader) throws XMLStreamException {
+        postsDetails = new PostsDetails();
         while (xmlStreamReader.hasNext()) {
             xmlStreamReader.next();
             if (xmlStreamReader.isStartElement() && POST_TAG.equals(xmlStreamReader.getLocalName())) {
