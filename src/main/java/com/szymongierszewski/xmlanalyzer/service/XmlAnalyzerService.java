@@ -1,5 +1,6 @@
 package com.szymongierszewski.xmlanalyzer.service;
 
+import com.szymongierszewski.xmlanalyzer.exceptions.XmlProcessingException;
 import com.szymongierszewski.xmlanalyzer.model.XmlAnalysis;
 import com.szymongierszewski.xmlanalyzer.model.XmlDetails;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class XmlAnalyzerService {
             XmlDetails xmlDetails = xmlDetailsService.createXmlDetails(xmlStreamReader);
             return new XmlAnalysis(xmlDetails);
         } catch (IOException | XMLStreamException e) {
-            // TODO throw RuntimeException
-            return null;
+            // TODO logger
+            throw new XmlProcessingException("Error processing request");
         }
     }
 

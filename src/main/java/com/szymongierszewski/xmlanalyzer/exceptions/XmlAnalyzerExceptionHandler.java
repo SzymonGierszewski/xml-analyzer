@@ -15,4 +15,11 @@ public class XmlAnalyzerExceptionHandler extends ResponseEntityExceptionHandler 
         ExceptionMessage exceptionMessage = new ExceptionMessage(httpStatus.value(), httpStatus.getReasonPhrase(), e.getMessage());
         return new ResponseEntity<>(exceptionMessage, httpStatus);
     }
+
+    @ExceptionHandler(XmlProcessingException.class)
+    public ResponseEntity<ExceptionMessage> handleXmlProcessingException(Exception e) {
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        ExceptionMessage exceptionMessage = new ExceptionMessage(httpStatus.value(), httpStatus.getReasonPhrase(), e.getMessage());
+        return new ResponseEntity<>(exceptionMessage, httpStatus);
+    }
 }
