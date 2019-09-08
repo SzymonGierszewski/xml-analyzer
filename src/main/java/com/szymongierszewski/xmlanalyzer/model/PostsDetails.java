@@ -2,7 +2,7 @@ package com.szymongierszewski.xmlanalyzer.model;
 
 import java.time.LocalDateTime;
 
-public class PostsDetails {
+public class PostsDetails extends XmlDetails {
 
     private LocalDateTime firstPostDateTime;
     private LocalDateTime lastPostDateTime;

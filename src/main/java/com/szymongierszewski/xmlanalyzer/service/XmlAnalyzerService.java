@@ -1,5 +1,7 @@
 package com.szymongierszewski.xmlanalyzer.service;
 
+import com.szymongierszewski.xmlanalyzer.model.XmlAnalysis;
+import com.szymongierszewski.xmlanalyzer.model.XmlDetails;
 import org.springframework.stereotype.Service;
 
 import javax.xml.stream.XMLInputFactory;
