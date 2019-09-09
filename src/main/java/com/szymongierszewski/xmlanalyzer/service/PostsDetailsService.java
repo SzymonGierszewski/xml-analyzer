@@ -18,11 +18,11 @@ public class PostsDetailsService implements XmlDetailsService {
     private static final String ACCEPTED_ANSWER_ID_ATTRIBUTE = "AcceptedAnswerId";
 
     private PostsDetails postsDetails;
-    private Integer postsTotalScore = 0;
 
     @Override
     public XmlDetails createXmlDetails(XMLStreamReader xmlStreamReader) throws XMLStreamException {
         postsDetails = new PostsDetails();
+        Integer postsTotalScore = 0;
         while (xmlStreamReader.hasNext()) {
             xmlStreamReader.next();
             if (xmlStreamReader.isStartElement() && POST_TAG.equals(xmlStreamReader.getLocalName())) {
