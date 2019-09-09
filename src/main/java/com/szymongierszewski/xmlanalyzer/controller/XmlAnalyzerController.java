@@ -34,6 +34,5 @@ public class XmlAnalyzerController {
         XmlDetailsService xmlDetailsService = new PostsDetailsService();
         XmlAnalysis xmlAnalysis = xmlAnalyzerService.createXmlAnalysis(analysisRequest.getUrl(), xmlDetailsService);
         return ResponseEntity.status(HttpStatus.CREATED).body(xmlAnalysisService.saveXmlAnalysis(xmlAnalysis));
-        // TODO null (MethodArgumentNotValidException)? i InvalidFormatExceptionExceptionHandler
     }
 }
