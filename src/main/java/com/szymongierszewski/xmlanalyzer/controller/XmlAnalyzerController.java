@@ -31,8 +31,7 @@ public class XmlAnalyzerController {
 
     @PostMapping("/posts")
     public ResponseEntity<XmlAnalysis> createXmlAnalysis(@Valid @RequestBody AnalysisRequest analysisRequest) {
-        XmlDetailsService xmlDetailsService = new PostsDetailsService();
-        XmlAnalysis xmlAnalysis = xmlAnalyzerService.createXmlAnalysis(analysisRequest.getUrl(), xmlDetailsService);
+        XmlAnalysis xmlAnalysis = xmlAnalyzerService.createXmlAnalysis(analysisRequest.getUrl(), new PostsDetailsService());
         return ResponseEntity.status(HttpStatus.CREATED).body(xmlAnalysisService.saveXmlAnalysis(xmlAnalysis));
     }
 }
