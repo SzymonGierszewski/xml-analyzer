@@ -26,15 +26,15 @@ public class PostsDetailsServiceTest {
         XMLStreamReader givenXmlStreamReader = createXmlStreamReader("/valid-posts-sample.xml");
 
         // when
-        PostsDetails result = (PostsDetails) testObj.createXmlDetails(givenXmlStreamReader);
+        XmlDetails result = testObj.createXmlDetails(givenXmlStreamReader);
 
         // then
-        assertThat(result).isInstanceOf(XmlDetails.class);
-        assertThat(result.getFirstPostDateTime()).isEqualTo(Optional.of(LocalDateTime.parse("2015-07-14T18:39:27.757")));
-        assertThat(result.getLastPostDateTime()).isEqualTo(Optional.of(LocalDateTime.parse("2015-07-14T20:05:50.737")));
-        assertThat(result.getTotalPosts()).isEqualTo(Optional.of(4));
-        assertThat(result.getTotalAcceptedPosts()).isEqualTo(Optional.of(1));
-        assertThat(result.getPostsAvgScore()).isEqualTo(Optional.of(0.5D));
+        assertThat(result).isInstanceOf(PostsDetails.class)
+                .hasFieldOrPropertyWithValue("firstPostDateTime", Optional.of(LocalDateTime.parse("2015-07-14T18:39:27.757")))
+                .hasFieldOrPropertyWithValue("lastPostDateTime", Optional.of(LocalDateTime.parse("2015-07-14T20:05:50.737")))
+                .hasFieldOrPropertyWithValue("totalPosts", Optional.of(4))
+                .hasFieldOrPropertyWithValue("totalAcceptedPosts", Optional.of(1))
+                .hasFieldOrPropertyWithValue("postsAvgScore", Optional.of(0.5D));
     }
 
     @Test
