@@ -26,9 +26,8 @@ public class PostsDetailsService implements XmlDetailsService {
         while (xmlStreamReader.hasNext()) {
             xmlStreamReader.next();
             if (xmlStreamReader.isStartElement() && POST_TAG.equals(xmlStreamReader.getLocalName())) {
-                LocalDateTime postDateTime = getPostDateTime(xmlStreamReader);
-                setFirstPostDateTime(postDateTime);
-                setLastPostDateTime(postDateTime);
+                setFirstPostDateTime(xmlStreamReader);
+                setLastPostDateTime(xmlStreamReader);
                 incrementTotalPosts();
                 incrementTotalAcceptedPosts(xmlStreamReader);
                 postsTotalScore += getPostScore(xmlStreamReader);
@@ -38,23 +37,25 @@ public class PostsDetailsService implements XmlDetailsService {
         return postsDetails;
     }
 
-    private LocalDateTime getPostDateTime(XMLStreamReader xmlStreamReader) {
-        try {
-            return LocalDateTime.parse(xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE));
-        } catch (NullPointerException | DateTimeParseException e) {
-            throw new XmlContentException(String.format("Invalid CreationDate attribute value: '%s' encountered", xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE)), e);
-        }
-    }
-
-    private void setFirstPostDateTime(LocalDateTime postDateTime) {
+    private void setFirstPostDateTime(XMLStreamReader xmlStreamReader) {
+        LocalDateTime postDateTime = getPostDateTime(xmlStreamReader);
         if (!postsDetails.getFirstPostDateTime().isPresent() || postsDetails.getFirstPostDateTime().get().isAfter(postDateTime)) {
             postsDetails.setFirstPostDateTime(postDateTime);
         }
     }
 
-    private void setLastPostDateTime(LocalDateTime postDateTime) {
+    private void setLastPostDateTime(XMLStreamReader xmlStreamReader) {
+        LocalDateTime postDateTime = getPostDateTime(xmlStreamReader);
         if (!postsDetails.getLastPostDateTime().isPresent() || postsDetails.getLastPostDateTime().get().isBefore(postDateTime)) {
             postsDetails.setLastPostDateTime(postDateTime);
+        }
+    }
+
+    private LocalDateTime getPostDateTime(XMLStreamReader xmlStreamReader) {
+        try {
+            return LocalDateTime.parse(xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE));
+        } catch (NullPointerException | DateTimeParseException e) {
+            throw new XmlContentException(String.format("Invalid CreationDate attribute value: '%s' encountered", xmlStreamReader.getAttributeValue(null, CREATION_DATE_ATTRIBUTE)), e);
         }
     }
 
