@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockserver.integration.ClientAndServer;
+import org.mockserver.model.HttpError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -101,6 +102,24 @@ public class XmlAnalyzerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"url\": \"test\"}"))
                 .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    public void createXmlAnalysis_returnsHttpStatus500_ifSourceDropsConnection() throws Exception {
+        // given
+        mockServer.when(request()
+                .withMethod("GET")
+                .withPath("/test")
+        ).error(HttpError.error().withDropConnection(true));
+
+        // when & then
+        mockMvc.perform(post("/api/v1/analyzes/posts")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"url\": \"http://localhost:8081/test\"}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.statusCode").value(500))
+                .andExpect(jsonPath("$.statusName").value("Internal Server Error"));
 
     }
 
