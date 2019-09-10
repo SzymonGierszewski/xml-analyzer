@@ -68,6 +68,25 @@ public class XmlAnalyzerControllerTest {
 
     }
 
+    @Test
+    public void createXmlAnalysis_returnsHttpStatus422_ifXmlSourceIsInvalid() throws Exception {
+        // given
+        mockServer.when(request()
+                .withMethod("GET")
+                .withPath("/test")
+        ).respond(response()
+                .withBody(getInputStreamAsString(getClass().getResourceAsStream("/invalid-posts_missing-Score-attribute.xml"))));
+
+        // when & then
+        mockMvc.perform(post("/api/v1/analyzes/posts")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"url\": \"http://localhost:8081/test\"}"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.statusCode").value(422))
+                .andExpect(jsonPath("$.statusName").value("Unprocessable Entity"));
+
+    }
+
     private String getInputStreamAsString(InputStream inputStream) throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
