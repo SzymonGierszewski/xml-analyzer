@@ -2,6 +2,7 @@ package com.szymongierszewski.xmlanalyzer.service;
 
 import com.szymongierszewski.xmlanalyzer.exceptions.XmlContentException;
 import com.szymongierszewski.xmlanalyzer.exceptions.XmlProcessingException;
+import com.szymongierszewski.xmlanalyzer.exceptions.XmlSourceException;
 import com.szymongierszewski.xmlanalyzer.model.XmlAnalysis;
 import com.szymongierszewski.xmlanalyzer.model.XmlDetails;
 import org.springframework.stereotype.Service;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 @Service
 public class XmlAnalyzerService {
@@ -25,6 +28,8 @@ public class XmlAnalyzerService {
             return new XmlAnalysis(xmlDetails);
         } catch (XMLStreamException e) {
             throw new XmlContentException("Invalid XML document content", e);
+        } catch (FileNotFoundException | UnknownHostException e) {
+            throw new XmlSourceException("Invalid XML source address", e);
         } catch (IOException e) {
             throw new XmlProcessingException("Error processing request", e);
         }

@@ -13,11 +13,11 @@ public class XmlAnalyzerExceptionHandler extends ResponseEntityExceptionHandler 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlAnalyzerExceptionHandler.class);
 
-    @ExceptionHandler(XmlContentException.class)
-    public ResponseEntity<ExceptionMessage> handleXmlAttributeValueException(Exception e) {
+    @ExceptionHandler(value = {XmlContentException.class, XmlSourceException.class})
+    public ResponseEntity<ExceptionMessage> handleUnprocessableEntityException(Exception e) {
         HttpStatus httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
         ExceptionMessage exceptionMessage = new ExceptionMessage(httpStatus.value(), httpStatus.getReasonPhrase(), e.getMessage());
-        LOGGER.warn("XmlContentException has been handled. ExceptionMessage \"{}\" with HTTP status code {} has been created. StackTrace: ", exceptionMessage.getMessage(), exceptionMessage.getStatusCode(), e);
+        LOGGER.warn("{} has been handled. ExceptionMessage \"{}\" with HTTP status code {} has been created. StackTrace: ", e.getClass().getSimpleName(), exceptionMessage.getMessage(), exceptionMessage.getStatusCode(), e);
         return new ResponseEntity<>(exceptionMessage, httpStatus);
     }
 
