@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <mockserver-netty.dependency.version>5.6.1</mockserver-netty.dependency.version>
     </properties>
 
     <dependencies>
@@ -44,7 +45,8 @@
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-netty</artifactId>
-            <version>5.6.1</version>
+            <version>${mockserver-netty.dependency.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
