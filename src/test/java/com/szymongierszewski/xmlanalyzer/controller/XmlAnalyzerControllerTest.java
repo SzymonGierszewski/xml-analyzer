@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpError;
+import org.mockserver.verify.VerificationTimes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -89,19 +90,57 @@ public class XmlAnalyzerControllerTest {
     }
 
     @Test
+    public void createXmlAnalysis_returnsHttpStatus422_ifRequestedResourceCouldNotBeFound() throws Exception {
+        // given
+        mockServer.when(request()
+                .withMethod("GET")
+                .withPath("/test")
+        ).respond(response().withStatusCode(404));
+
+        // when & then
+        mockMvc.perform(post("/api/v1/analyzes/posts")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"url\": \"http://localhost:8081/test\"}"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.statusCode").value(422))
+                .andExpect(jsonPath("$.statusName").value("Unprocessable Entity"));
+
+    }
+
+    @Test
+    public void createXmlAnalysis_returnsHttpStatus422_ifIPAddressOfHostCouldNotBeDetermined() throws Exception {
+        // given
+        mockServer.when(request()
+                .withMethod("GET")
+                .withPath("/test"));
+
+        // when & then
+        mockMvc.perform(post("/api/v1/analyzes/posts")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"url\": \"http://test\"}"))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.statusCode").value(422))
+                .andExpect(jsonPath("$.statusName").value("Unprocessable Entity"));
+
+        mockServer.verify(request().withPath("/test"), VerificationTimes.exactly(0));
+
+    }
+
+    @Test
     public void createXmlAnalysis_returnsHttpStatus400_ifProvidedUrlIsInvalid() throws Exception {
         // given
         mockServer.when(request()
                 .withMethod("GET")
                 .withPath("/test")
-        ).respond(response()
-                .withBody(getInputStreamAsString(getClass().getResourceAsStream("/invalid-posts_missing-Score-attribute.xml"))));
+        );
 
         // when & then
         mockMvc.perform(post("/api/v1/analyzes/posts")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"url\": \"test\"}"))
                 .andExpect(status().isBadRequest());
+
+        mockServer.verify(request().withPath("/test"), VerificationTimes.exactly(0));
 
     }
 
