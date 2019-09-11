@@ -1,14 +1,14 @@
 # xml-analyzer
-REST API which can analyse the content of big XML files
+### REST API which can analyse the content of big XML files
 
-HTTP request example:
+##### HTTP request example:
 
-curl -i -X POST \
-   -H "Content-Type:application/json" \
-   -d \
+curl -i -X POST \\
+   -H "Content-Type:application/json" \\
+   -d \\
 '{
   "url": "https://s3-eu-west-1.amazonaws.com/merapar-assessment/arabic-posts.xml"
-}' \
+}' \\
  'http://localhost:8080/api/v1/analyzes/posts'
 
 
