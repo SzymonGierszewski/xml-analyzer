@@ -10,7 +10,9 @@ Docker image available at: https://hub.docker.com/r/szymongierszewski/xml-analyz
 
 Pull docker image: $ docker pull szymongierszewski/xml-analyzer
 
-Pull docker image & create container: $ docker run -p <local_port>:8080 -it szymongierszewski/xml-analyzer
+Create container: $ docker run -p <local_port>:8080 -it szymongierszewski/xml-analyzer
+
+Create container & set timezone (default TZ=Europe/Warsaw): $ docker run -p <local_port>:8080 -it -e TZ=<tz_database_timezone> szymongierszewski/xml-analyzer
 
 Stop docker container: $ docker stop <container_id_or_name>
 
